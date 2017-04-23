@@ -1,7 +1,16 @@
 CC = gcc
 CFLAGS = -Wall -g
 
-SOURCES = lexico.c sintactico.c semantico.c TablaDeSimbolos.c generadorMepa.c main.c
+INCLUDES = -I. -I../AnalizadorLexico -I../AnalizadorSemantico
+
+SOURCES = \
+../AnalizadorLexico/lexico.c \
+../AnalizadorSemantico/semantico.c \
+../AnalizadorSemantico/TablaDeSimbolos.c \
+sintactico.c \
+generadorMepa.c \
+main.c \
+
 MAIN = gencodint
 OBJS = $(SOURCES:.c=.o)
 
@@ -9,8 +18,11 @@ all: $(OBJS)
 	$(CC) $(CFLAGS) -o $(MAIN) $(OBJS) 
 
 .c.o:
-		$(CC) $(CFLAGS) -c $<  -o $@
+		$(CC) $(CFLAGS) $(INCLUDES) -c $<  -o $@
 
 clean:
-	-rm *.o gencodint traduccionMEPA.txt
+	-rm *.o gencodint traduccionMEPA.txt \
+		../AnalizadorLexico/lexico.o \
+		../AnalizadorSemantico/semantico.o \
+		../AnalizadorSemantico/TablaDeSimbolos.o
 
